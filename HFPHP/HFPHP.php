@@ -42,8 +42,6 @@ function load_runtime_file(){
     //加载底层配置文件
     C(include HF_PATH.'Conf/conf.php');
 
-
-
 }
 
 

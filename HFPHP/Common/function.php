@@ -45,6 +45,32 @@ function C($name=null,$value=null){
 }
 
 
+//A函数用于实例化Action类，传入类的名称即可
+
+function A($name){
+    static $_controller = array();
+
+    if(isset($_controller[$name]))
+        return $_controller[$name];
+
+    $class = $name.'Controller';
+
+    if(class_exists($class)){
+        $controller = new $class();
+        $_controller[$name] = $controller;
+        return $controller;
+    } else {
+        return false;
+    }
+
+
+
+}
+
+
+
+
+
 
 
 

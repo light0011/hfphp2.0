@@ -50,6 +50,11 @@ class IndexController extends Controller {
 
             }
 
+            //创建应用函数文件
+            if(!is_file(APP_PATH.$module.'/Common/function.php')){
+                file_put_contents(APP_PATH.$module.'/Common/function.php',"<?php\n//请在此输入此模块下的公共函数，并自动为您加载！\n?>");
+            }
+
             //写入测试Action
             if(!is_file(APP_PATH.$module.'/'.'Controller/IndexAction.class.php')){
                 file_put_contents(APP_PATH.$module.'/'.'Controller/IndexAction.class.php',self::$controller);
