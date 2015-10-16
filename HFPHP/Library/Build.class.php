@@ -33,6 +33,9 @@ class IndexController extends Controller {
                 COMMON_PATH,
                 COMMON_PATH.'Common/',
                 CONF_PATH,
+                RUNTIME_PATH,
+                COMPILE_PATH,
+                CACHE_PATH,
                 APP_PATH.$module,'/',
                 APP_PATH.$module.'/Common/',
                 APP_PATH.$module.'/Controller/',
@@ -56,8 +59,8 @@ class IndexController extends Controller {
             }
 
             //写入测试Action
-            if(!is_file(APP_PATH.$module.'/'.'Controller/IndexAction.class.php')){
-                file_put_contents(APP_PATH.$module.'/'.'Controller/IndexAction.class.php',self::$controller);
+            if(!is_file(APP_PATH.$module.'/'.'Controller/IndexController.class.php')){
+                file_put_contents(APP_PATH.$module.'/'.'Controller/IndexController.class.php',self::$controller);
             }
 
 

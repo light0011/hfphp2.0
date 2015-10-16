@@ -1,7 +1,7 @@
 <?php
-class IndexController  {
+class IndexController extends Controller {
     public function index(){
-        $user = new UserController();
-        $user->say();
+        $this->assign('name','李军光');
+        $this->display();
     }
 }
