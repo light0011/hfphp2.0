@@ -55,6 +55,7 @@ function A($name){
 
     $class = $name.'Controller';
 
+    //class_exists($class,[bool $autoload = true])会自动调用autoload方法，除非第二个参数填false
     if(class_exists($class)){
         $controller = new $class();
         $_controller[$name] = $controller;
@@ -62,15 +63,29 @@ function A($name){
     } else {
         return false;
     }
-
-
-
 }
 
 
 
+//D函数用于实例化Model类，传入类的名称即可
 
+function D($name){
+    static $_model = array();
 
+    if(isset($_model[$name]))
+        return $_model[$name];
+
+    $class = $name.'Model';
+
+    //class_exists($class,[bool $autoload = true])会自动调用autoload方法，除非第二个参数填false
+    if(class_exists($class)){
+        $model = new $class();
+        $_model[$name] = $model;
+        return $model;
+    } else {
+        return false;
+    }
+}
 
 
 
