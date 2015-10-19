@@ -193,14 +193,14 @@
             <entry file="file://$PROJECT_DIR$/HFPHP/Library/DB.class.php">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="1.5714285" vertical-offset="0" max-vertical-offset="5302">
-                  <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+                  <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
                   <folding>
-                    <marker date="1445260656708" expanded="true" signature="440:488" placeholder="SELECT %FIEL..." />
-                    <marker date="1445260656708" expanded="true" signature="1261:1318" placeholder="INSERT INTO ..." />
-                    <marker date="1445260656708" expanded="true" signature="1871:1902" placeholder="UPDATE :_tab..." />
-                    <marker date="1445260656708" expanded="true" signature="2233:2273" placeholder="SELECT id FR..tables_0_..." />
-                    <marker date="1445260656708" expanded="true" signature="2594:2632" placeholder="DELETE FROM ..." />
-                    <marker date="1445260656708" expanded="true" signature="4479:4520" placeholder="SELECT COUNT..." />
+                    <marker date="1445260700621" expanded="true" signature="440:488" placeholder="SELECT %FIEL..." />
+                    <marker date="1445260700621" expanded="true" signature="1256:1313" placeholder="INSERT INTO ..." />
+                    <marker date="1445260700621" expanded="true" signature="1866:1897" placeholder="UPDATE :_tab..." />
+                    <marker date="1445260700621" expanded="true" signature="2228:2268" placeholder="SELECT id FR..tables_0_..." />
+                    <marker date="1445260700621" expanded="true" signature="2589:2627" placeholder="DELETE FROM ..." />
+                    <marker date="1445260700621" expanded="true" signature="4474:4515" placeholder="SELECT COUNT..." />
                   </folding>
                 </state>
               </provider>
@@ -868,14 +868,14 @@
     <entry file="file://$PROJECT_DIR$/HFPHP/Library/DB.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.5714285" vertical-offset="0" max-vertical-offset="5302">
-          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
-            <marker date="1445260656708" expanded="true" signature="440:488" placeholder="SELECT %FIEL..." />
-            <marker date="1445260656708" expanded="true" signature="1261:1318" placeholder="INSERT INTO ..." />
-            <marker date="1445260656708" expanded="true" signature="1871:1902" placeholder="UPDATE :_tab..." />
-            <marker date="1445260656708" expanded="true" signature="2233:2273" placeholder="SELECT id FR..tables_0_..." />
-            <marker date="1445260656708" expanded="true" signature="2594:2632" placeholder="DELETE FROM ..." />
-            <marker date="1445260656708" expanded="true" signature="4479:4520" placeholder="SELECT COUNT..." />
+            <marker date="1445260700621" expanded="true" signature="440:488" placeholder="SELECT %FIEL..." />
+            <marker date="1445260700621" expanded="true" signature="1256:1313" placeholder="INSERT INTO ..." />
+            <marker date="1445260700621" expanded="true" signature="1866:1897" placeholder="UPDATE :_tab..." />
+            <marker date="1445260700621" expanded="true" signature="2228:2268" placeholder="SELECT id FR..tables_0_..." />
+            <marker date="1445260700621" expanded="true" signature="2589:2627" placeholder="DELETE FROM ..." />
+            <marker date="1445260700621" expanded="true" signature="4474:4515" placeholder="SELECT COUNT..." />
           </folding>
         </state>
       </provider>
