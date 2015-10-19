@@ -4,7 +4,8 @@
 //只有Model类才能调用DB中的方法，防止被污染
 
 
-class DB{
+class DB
+{
 
     //存放实例化的对象
     static private $instance;
@@ -13,7 +14,8 @@ class DB{
     private $pdo = null;
 
     //公共静态方法获取实例化的对象
-    static protected function getInstance(){
+    static protected function getInstance()
+    {
         //判断self::$instance 是否已经被实例化
         if (!self::$instance instanceof self) {
             self::$instance = new self();
@@ -21,17 +23,22 @@ class DB{
         return self::$instance;
     }
 
+    // 查询表达式
+    protected $selectSql = 'SELECT %FIELD% FROM %TABLE%%WHERE%%ORDER%%LIMIT%';
+
     //私有克隆，防止被克隆
-    private function __clone(){
+    private function __clone()
+    {
 
     }
 
 
     //私有构造
-    protected  function __construct(){
-        echo 'a';
+    protected function __construct()
+    {
+     
         try {
-            $this->pdo = new PDO('mysql:host='.C('DB_HOST').';dbname='.C('DB_NAME'), C('DB_USER'), C('DB_PWD'), array(PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES '.C('DB_CHARSET')));
+            $this->pdo = new PDO('mysql:host=' . C('DB_HOST') . ';dbname=' . C('DB_NAME'), C('DB_USER'), C('DB_PWD'), array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . C('DB_CHARSET')));
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             exit($e->getMessage());
@@ -40,11 +47,12 @@ class DB{
 
 
     //增加
-    protected function addDB($tables,Array $addData){
+    protected function addDB($tables, Array $addData)
+    {
         $addFileds = array_keys($addData);
         $addValues = array_values($addData);
 
-        $addFileds = implode(',',$addFileds);
+        $addFileds = implode(',', $addFileds);
         $addValues = implode("','", $addValues);
 
         $sql = "INSERT INTO $tables[0] ($addFileds) VALUES ('$addValues');";
@@ -55,20 +63,21 @@ class DB{
 
     //修改
     //传入三个数组，分别是修改表名，修改的条件，修改的key与value
-    protected function update($tables,Array $param,Array $updateData){
-        $where  = $setData = '';
+    protected function update($tables, Array $param, Array $updateData)
+    {
+        $where = $setData = '';
 
         foreach ($param as $key => $value) {
-            $where .= $key.' = '.$value.' AND ';
+            $where .= $key . ' = ' . $value . ' AND ';
         }
 
-        $where = ' WHERE '.substr($where,0,-4);
+        $where = ' WHERE ' . substr($where, 0, -4);
 
         foreach ($updateData as $key => $value) {
             $setData .= " $key = '$value',";
         }
 
-        $setData = substr($setData, 0,-1);
+        $setData = substr($setData, 0, -1);
 
         $sql = "UPDATE $tables[0] SET $setData $where";
 
@@ -77,12 +86,13 @@ class DB{
 
 
     //判断某个数据是否存在
-    protected function isOne($tables,Array $param){
+    protected function isOne($tables, Array $param)
+    {
         $where = '';
         foreach ($param as $key => $value) {
             $where .= "$key = $value AND ";
         }
-        $where = ' WHERE '.substr($where,0,-4);
+        $where = ' WHERE ' . substr($where, 0, -4);
 
         $sql = "SELECT id FROM $tables[0] $where LIMIT 1";
         return $this->execute($sql)->rowCount();
@@ -90,12 +100,13 @@ class DB{
 
 
     //删除某个数据
-    protected function delete($tables,Array $param){
+    protected function delete($tables, Array $param)
+    {
         $where = '';
         foreach ($param as $key => $value) {
             $where .= "$key = $value AND ";
         }
-        $where = ' WHERE '.substr($where,0,-4);
+        $where = ' WHERE ' . substr($where, 0, -4);
 
         $sql = "DELETE  FROM $tables[0] $where LIMIT 1";
 
@@ -103,32 +114,12 @@ class DB{
     }
 
 
-    //查询
-    protected function select($tables,Array $fields,Array $param = array()){
-        $limit = $where = $like = $order = '';
+    protected function select($options = array()){
 
-        if (is_array($param) && count($param) != 0) {
-            $limit = isset($param['limit']) ? $param['limit'] : '';
-            $order = isset($param['order']) ? 'ORDER BY '.$param['order'] : '';
 
-            if(isset($param['where'])){
-                foreach ($param['where'] as $key => $value) {
-                    $where .= " $value AND ";
-                }
-                $where = ' WHERE '.substr($where,0,-4);
-            }
+        //得到sql语句
+        $sql = $this->buildSelectSql($options);
 
-            if (isset($param['like'])) {
-                foreach ($param['like'] as $key => $value) {
-                    $like .= "$key LIKE '%$value%' AND";
-                }
-                $like = ' WHERE '.substr($like,0,-4);
-            }
-        }
-
-        $selectFields = implode(',',$fields);
-        $table = isset($tables[1]) ? $tables[0].','.$tables[1] : $tables[0];
-        $sql = "SELECT $selectFields FROM $table $where $like $order $limit;";
         $stm = $this->execute($sql);
         $result = array();
         while (!!$obj = $stm->fetch(PDO::FETCH_ASSOC)) {
@@ -138,6 +129,47 @@ class DB{
         return $result;
 
     }
+
+
+    //生成查询SQL;
+    public function buildSelectSql($options = array()){
+
+        $sql = str_replace(array('%TABLE%','%FIELD%','%WHERE%','%ORDER%','%LIMIT%'),array(
+            $this->parseTable($options['table']),
+            $this->parseFiled(isset($options['field']) ? $options['field'] : ' * '),
+            $this->parseWhere(isset($options['where']) ? $options['where'] : ''),
+            $this->parseOrder(isset($options['order']) ? $options['order'] : ''),
+            $this->parseLimit(isset($options['limit']) ? $options['limit'] : '')
+        ),$this->selectSql);
+        return $sql;
+    }
+
+    //limit分析
+    private function parseLimit($limit){
+        return !empty($limit) ? ' LIMIT '.$limit.' ':'';
+    }
+
+    //table分析（以后逐渐完善）
+
+    private function parseTable($tables){
+        return $tables;
+    }
+
+    //field分析（以后逐渐完善）
+    private function parseFiled($fields){
+        return $fields;
+    }
+
+    //where分析（待完善）
+    private function parseWhere($where){
+        return empty($where) ? '' : ' WHERE '.$where;
+    }
+
+    //order分析（待完善）
+    private function parseOrder($order){
+        return !empty($order) ? ' ORDER BY '.$order : '';
+    }
+
 
 
     //总记录
