@@ -12,6 +12,9 @@ class DB{
     //PDO对象
     private $pdo = null;
 
+    // 查询表达式
+    protected $selectSql  =  'SELECT %FIELD% FROM %TABLE%%WHERE%%ORDER%%LIMIT%';
+
     //公共静态方法获取实例化的对象
     static protected function getInstance(){
         //判断self::$instance 是否已经被实例化
@@ -29,7 +32,7 @@ class DB{
 
     //私有构造
     protected  function __construct(){
-        echo 'a';
+        //链接数据库
         try {
             $this->pdo = new PDO('mysql:host='.C('DB_HOST').';dbname='.C('DB_NAME'), C('DB_USER'), C('DB_PWD'), array(PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES '.C('DB_CHARSET')));
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -48,7 +51,6 @@ class DB{
         $addValues = implode("','", $addValues);
 
         $sql = "INSERT INTO $tables[0] ($addFileds) VALUES ('$addValues');";
-
         return $this->execute($sql)->rowCount();
 
     }
@@ -103,32 +105,14 @@ class DB{
     }
 
 
-    //查询
-    protected function select($tables,Array $fields,Array $param = array()){
-        $limit = $where = $like = $order = '';
 
-        if (is_array($param) && count($param) != 0) {
-            $limit = isset($param['limit']) ? $param['limit'] : '';
-            $order = isset($param['order']) ? 'ORDER BY '.$param['order'] : '';
 
-            if(isset($param['where'])){
-                foreach ($param['where'] as $key => $value) {
-                    $where .= " $value AND ";
-                }
-                $where = ' WHERE '.substr($where,0,-4);
-            }
+    //查找
+    protected  function select($options = array()){
 
-            if (isset($param['like'])) {
-                foreach ($param['like'] as $key => $value) {
-                    $like .= "$key LIKE '%$value%' AND";
-                }
-                $like = ' WHERE '.substr($like,0,-4);
-            }
-        }
+        //得到sql语句
+        $sql = $this->buildSelectSql($options);
 
-        $selectFields = implode(',',$fields);
-        $table = isset($tables[1]) ? $tables[0].','.$tables[1] : $tables[0];
-        $sql = "SELECT $selectFields FROM $table $where $like $order $limit;";
         $stm = $this->execute($sql);
         $result = array();
         while (!!$obj = $stm->fetch(PDO::FETCH_ASSOC)) {
@@ -137,8 +121,48 @@ class DB{
 
         return $result;
 
+
     }
 
+    //生成查询SQL;
+    public function buildSelectSql($options = array()){
+
+        $sql = str_replace(array('%TABLE%','%FIELD%','%WHERE%','%ORDER%','%LIMIT%'),array(
+            $this->parseTable($options['table']),
+            $this->parseFiled(isset($options['field']) ? $options['field'] : ' * '),
+            $this->parseWhere(isset($options['where']) ? $options['where'] : ''),
+            $this->parseOrder(isset($options['order']) ? $options['order'] : ''),
+            $this->parseLimit(isset($options['limit']) ? $options['limit'] : '')
+        ),$this->selectSql);
+        return $sql;
+    }
+
+
+    //limit分析
+    private function parseLimit($limit){
+        return !empty($limit) ? ' LIMIT '.$limit.' ':'';
+    }
+
+    //table分析（以后逐渐完善）
+
+    private function parseTable($tables){
+        return $tables;
+    }
+
+    //field分析（以后逐渐完善）
+    private function parseFiled($fields){
+        return $fields;
+    }
+
+    //where分析（待完善）
+    private function parseWhere($where){
+        return empty($where) ? '' : ' WHERE '.$where;
+    }
+
+    //order分析（待完善）
+    private function parseOrder($order){
+        return !empty($order) ? ' ORDER BY '.$order : '';
+    }
 
     //总记录
     protected function total($tables,Array $param = array()){

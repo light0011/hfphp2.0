@@ -2,6 +2,8 @@
 class IndexController extends Controller {
     public function index(){
         $attr = D('Attr');
-        var_dump($attr);
+
+        $attrs = $attr->getAll();
+        var_dump($attrs);
     }
 }
