@@ -79,7 +79,6 @@ function D($name){
 
     //class_exists($class,[bool $autoload = true])会自动调用autoload方法，除非第二个参数填false
     if(class_exists($class)){
-
         $model = new $class();
         $_model[$name] = $model;
         return $model;
