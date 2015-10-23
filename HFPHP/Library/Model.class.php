@@ -4,6 +4,8 @@ class Model extends DB{
 
     protected $db = null;
     protected $tables = array();
+
+    // 字段信息
     protected $fields = array();
 
     //查询表达式参数
@@ -20,7 +22,11 @@ class Model extends DB{
         //设置表前缀
         $this->tablePrefix = C('DB_PREFIX');
 
+        //获得DB实例
         $this->db = parent::getInstance();
+
+        //获取字段信息并赋值给$this->fields
+        $this->flush();
 
     }
 
@@ -34,8 +40,13 @@ class Model extends DB{
     }
 
 
-    protected function addData(Array $data){
-        return $this->db->addDB($this->tables,$data);
+    public  function add($data = array(),$options=array()){
+        //数据处理，删除不是数据库字段的键值对
+        $data = $this->facade($data);
+        //分析表达式
+        $options = $this->parseOptions($options);
+        //写入数据库,返回执行结果
+        return $this->db->insert($data,$options);
     }
 
 
@@ -43,7 +54,7 @@ class Model extends DB{
         return $this->db->update($this->tables,$where,$updateData);
     }
 
-    protected function select($options = array()){
+    public  function select($options = array()){
 
         $options = $this->parseOptions($options);
 
@@ -53,7 +64,6 @@ class Model extends DB{
 
     //分析options，得到组装sql语句的参数
     protected function parseOptions($options = array()){
-
         if(is_array($options))
             $options = array_merge($this->options,$options);
 
@@ -78,9 +88,49 @@ class Model extends DB{
     }
 
 
+    //获取字段信息并赋值
+    public function flush(){
+
+        //得到字段信息
+        $fields = $this->db->getFields($this->getTableName());
+
+        //无法获取字段信息
+        if(!$fields){
+            return false;
+        }
+
+        $this->fields = array_keys($fields);
+
+        $this->fields['autoinc'] = false;
+
+        foreach($fields as $key=>$value){
+            if($value['primary']){
+                $this->fields['pk'] = $key;
+                if($value['autoinc']){
+                    $this->fields['autoinc'] = true;
+                }
+            }
+        }
 
 
 
+    }
+
+    //对保存到数据库的数据进行处理
+    private  function facade($data){
+
+        //检查非数据库字段
+        if(!empty($this->fields)){
+            foreach($data as $key=>$value){
+                if(!in_array($key,$this->fields,true)){
+                    unset($data[$key]);
+                }
+            }
+        }
+
+        return $data;
+
+    }
 
 
 

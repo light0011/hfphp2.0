@@ -2,17 +2,16 @@
 2.0版，参考ThinkPHP框架（核心板）编写
 
 
------index.php
+日志
 
------定义应用目录，引入框架公共入口文件
+select
+
+	1、实现连贯操作,参数只能是字符串
+	
+	2、直接给select传条件数组
 
 
------/HFPHP/HFPHP.php
 
------框架公共入口文件，定义各种目录
-
-
------/HFPHP/Library/HF.class.php
 
 
 

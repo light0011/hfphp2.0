@@ -47,17 +47,32 @@ class DB
 
 
     //增加
-    protected function addDB($tables, Array $addData)
-    {
-        $addFileds = array_keys($addData);
-        $addValues = array_values($addData);
+    protected function insert($data=array(),$options=array()){
 
-        $addFileds = implode(',', $addFileds);
-        $addValues = implode("','", $addValues);
 
-        $sql = "INSERT INTO $tables[0] ($addFileds) VALUES ('$addValues');";
+        $values = $fields = array();
 
-        return $this->execute($sql)->rowCount();
+        foreach($data as $key=>$value){
+            $value = $this->parseValue($value);
+
+            //过滤非标量数据
+            if(is_scalar($value)){
+                $values[] = $value;
+                $fields[] = $this->parseKey($key);
+            }
+        }
+
+        $sql= 'INSERT INTO '.$this->parseTable($options['table']).'('.implode(',',$fields).') VALUES ('.implode(',',$values).')';
+
+
+
+
+        $res = $this->execute($sql);
+        if($res !== false){
+            return $this->pdo->lastInsertId();
+        } else {
+            return false;
+        }
 
     }
 
@@ -120,13 +135,8 @@ class DB
         //得到sql语句
         $sql = $this->buildSelectSql($options);
 
-        $stm = $this->execute($sql);
-        $result = array();
-        while (!!$obj = $stm->fetch(PDO::FETCH_ASSOC)) {
-            $result[] = $obj;
-        }
+        return $this->query($sql);
 
-        return $result;
 
     }
 
@@ -195,18 +205,87 @@ class DB
 
 
 
-    //执行SQL语句
+    //执行查询SQL语句
+    private function query($sql){
+        $res = $this->getResource($sql);
+
+        $result = array();
+        while (!!$obj = $res->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $obj;
+        }
+
+        return $result;
+
+    }
+
+    //执行增删改SQL语句
     private function execute($sql){
+
+        return $this->getResource($sql)->rowCount();
+
+    }
+
+    //得到执行SQL语句后的资源句柄
+    private function getResource($sql){
         try {
             $res = $this->pdo->prepare($sql);
             $res->execute();
-        } catch (PDOException $e) {
-            exit('SQL语句:'.$sql.'错误，错误信息是:'.$e->getMessage());
+        } catch (PDOException  $e) {
+            exit('SQL语句：'.$sql.'<br />错误信息：'.$e->getMessage());
         }
         return $res;
     }
 
+    //得到字段信息
+    public function getFields($tableName){
+        $result = $this->query('SHOW COLUMNS FROM '.$tableName);
+        $info = array();
 
+        if($result){
+            foreach($result as $key => $value){
+               $info[$value['Field']] = array(
+                   'name' => $value['Field'],
+                   'type' => $value['Type'],
+                   'notnull' => (bool) ($value['Null'] === ''),
+                   'default' => $value['Default'],
+                   'primary' => (strtolower($value['Key']) == 'pri'),
+                   'autoinc' => (strtolower($value['Extra']) == 'auto_increment'),
+               );
+
+            }
+
+        }
+
+
+        return $info;
+    }
+
+
+    //key分析
+    private function parseKey($key){
+        $key = trim($key);
+        if(!preg_match('/[,\'\"\*\(\)`.\s`]/',$key)){
+            $key = '`'.$key.'`';
+        }
+        return $key;
+    }
+
+    //value分析
+    private function parseValue($value){
+        if(is_string($value)){
+            $value = '\''.$this->escapeString($value).'\'';
+        }
+        return $value;
+    }
+
+
+    //判断sql指令是否需要安全过滤
+    private function escapeString($str){
+        if(!get_magic_quotes_gpc()){
+            $str = addslashes($str);
+        }
+        return $str;
+    }
 
 
 
