@@ -78,25 +78,19 @@ class DB
 
     //修改
     //传入三个数组，分别是修改表名，修改的条件，修改的key与value
-    protected function update($tables, Array $param, Array $updateData)
-    {
-        $where = $setData = '';
+    protected function update($data,$options){
 
-        foreach ($param as $key => $value) {
-            $where .= $key . ' = ' . $value . ' AND ';
-        }
+        $sql = 'UPDATE '
+            .$this->parseTable($options['table'])
+            .$this->parseSet($data)
+            .$this->parseWhere(isset($options['where']) ? $options['where'] : '');
 
-        $where = ' WHERE ' . substr($where, 0, -4);
 
-        foreach ($updateData as $key => $value) {
-            $setData .= " $key = '$value',";
-        }
 
-        $setData = substr($setData, 0, -1);
+        return $this->execute($sql);
 
-        $sql = "UPDATE $tables[0] SET $setData $where";
 
-        return $this->execute($sql)->rowCount();
+
     }
 
 
@@ -238,7 +232,9 @@ class DB
 
     //得到字段信息
     public function getFields($tableName){
+
         $result = $this->query('SHOW COLUMNS FROM '.$tableName);
+
         $info = array();
 
         if($result){
@@ -279,7 +275,7 @@ class DB
     }
 
 
-    //判断sql指令是否需要安全过滤
+    //判断sql指令是否需要安全过滤，如需过滤便过滤
     private function escapeString($str){
         if(!get_magic_quotes_gpc()){
             $str = addslashes($str);
@@ -287,6 +283,19 @@ class DB
         return $str;
     }
 
+
+    //update中的set分析
+    private function parseSet($data){
+        foreach($data as $key=>$val){
+            $value = $this->parseValue($val);
+            //过滤非标量数据
+            if(is_scalar($value)){
+                $set[] = $this->parseKey($key).'='.$value;
+            }
+
+        }
+        return ' SET '.implode(',',$set);
+    }
 
 
 

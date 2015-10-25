@@ -14,6 +14,11 @@ class Model extends DB{
     //模型名称
     protected $name = '';
 
+    //表前缀
+    protected $tablePrefix = '';
+
+    //主键名称
+    protected $pk = 'id';
 
     protected function __construct(){
 
@@ -39,6 +44,12 @@ class Model extends DB{
 
     }
 
+    //设置数据对象的值
+    public function __set($name,$value){
+        //设置数据对象属性
+        $this->data[$name] = $value;
+    }
+
 
     public  function add($data = array(),$options=array()){
         //数据处理，删除不是数据库字段的键值对
@@ -50,8 +61,48 @@ class Model extends DB{
     }
 
 
-    protected function update(Array $where,Array $updateData){
-        return $this->db->update($this->tables,$where,$updateData);
+    public function save($data=array(),$options=array()){
+
+        if(empty($data)){
+            //没有传递数据，获取当前数据对象的值
+            if(!empty($this->data)){
+                $data = $this->data;
+
+                //重置数据
+                $this->data = array();
+            } else {
+
+                return false;
+            }
+        }
+
+
+
+        //处理数据
+        $data = $this->facade($data);
+
+        $options = $this->parseOptions($options);
+
+
+
+        if(!isset($options['where'])){
+            //如果存在主键数据，则自动座位更新数据
+            if(isset($data[$this->getPK()])){
+                $pk = $this->getPK();
+                $options['where'] = $pk.' = '.$data[$pk];
+                unset($data[$pk]);
+            } else {
+                //没有任何执行条件，则不执行
+                return false;
+            }
+        }
+
+        $result = $this->db->update($data,$options);
+
+        return $result;
+
+
+
     }
 
     public  function select($options = array()){
@@ -84,6 +135,7 @@ class Model extends DB{
 
     //得到表名
     private function getTableName(){
+
         return $this->tablePrefix.strtolower($this->name);
     }
 
@@ -134,6 +186,10 @@ class Model extends DB{
 
 
 
+    //获取主键名称
+    public function getPK(){
+        return isset($this->fields['pk']) ? $this->fields['pk'] : $this->pk;
+    }
 
 
 

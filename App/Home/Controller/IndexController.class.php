@@ -3,11 +3,15 @@ class IndexController extends Controller {
     public function index(){
         $attr = D('Attr');
 
+        $data['id'] = 24;
 
-        $data['name'] = '寒风';
-        $data['info'] = '最是ssss疯狂';
+        $num = mt_rand(1,1000);
 
-        var_dump($attr->add($data));
+        $data['name'] = $num;
+
+        $data['info'] = 'ThinkPHP@gmail.com';
+
+        var_dump($attr->save($data));
 
     }
 }
