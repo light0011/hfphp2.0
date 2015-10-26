@@ -113,6 +113,18 @@ class Model extends DB{
     }
 
 
+    public function delete($options=array()){
+        //分析表达式
+        $options = $this->parseOptions($options);
+        if(empty($options['where'])){
+            //如果条件为空，返回false
+            return false;
+        }
+
+        return $this->db->delete($options);
+
+    }
+
     //分析options，得到组装sql语句的参数
     protected function parseOptions($options = array()){
         if(is_array($options))

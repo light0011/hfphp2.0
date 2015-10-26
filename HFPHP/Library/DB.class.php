@@ -85,10 +85,20 @@ class DB
             .$this->parseSet($data)
             .$this->parseWhere(isset($options['where']) ? $options['where'] : '');
 
-
-
         return $this->execute($sql);
 
+    }
+
+    //删除
+    public function delete($options=array()){
+
+        $sql = 'DELETE FROM '
+            .$this->parseTable($options['table'])
+            .$this->parseWhere(isset($options['where']) ? $options['where'] : '')
+            .$this->parseOrder(isset($options['order']) ? $options['order'] : '')
+            .$this->parseLimit(isset($options['limit']) ? $options['limit'] : '');
+
+        return $this->execute($sql);
 
 
     }
@@ -108,19 +118,6 @@ class DB
     }
 
 
-    //删除某个数据
-    protected function delete($tables, Array $param)
-    {
-        $where = '';
-        foreach ($param as $key => $value) {
-            $where .= "$key = $value AND ";
-        }
-        $where = ' WHERE ' . substr($where, 0, -4);
-
-        $sql = "DELETE  FROM $tables[0] $where LIMIT 1";
-
-        return $this->execute($sql)->rowCount();
-    }
 
 
     protected function select($options = array()){
