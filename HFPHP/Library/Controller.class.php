@@ -2,7 +2,7 @@
 
 //HFPHP控制器基类  抽象类
 
-abstract class Controller{
+class Controller{
 
     //视图实例对象
     protected $view = null;
@@ -20,6 +20,10 @@ abstract class Controller{
         $this->view->assign($var,$value);
     }
 
+
+    protected function success($message,$jumpUrl=''){
+        $this->dispathJump($message,1,$jumpUrl);
+    }
 
 
 }

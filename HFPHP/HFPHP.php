@@ -41,6 +41,12 @@ defined('COMMON_PATH') or define('COMMON_PATH',APP_PATH.'Common/');
 //应用配置目录
 defined('CONF_PATH') or define('CONF_PATH',COMMON_PATH.'Conf/');
 
+
+//定义当前文件名
+define('PHP_FILE',rtrim($_SERVER['SCRIPT_NAME'],'/'));
+
+
+
 //加载运行时所需要运行的文件，并负责目录自动生成
 function load_runtime_file(){
     //加载框架基础函数库
@@ -54,6 +60,9 @@ function load_runtime_file(){
 
     //加载底层配置文件
     C(include HF_PATH.'Conf/conf.php');
+
+    //加载框架底层语言包
+    L(include HF_PATH.'Lang/'.strtolower(C('DEFAULT_LANG')).'.php');
 
 }
 
