@@ -2,8 +2,6 @@
 class IndexController extends Controller {
     public function index(){
         $attr = D('Attr');
-
-        $attr->where('id = 1')->delete();
-
+        $info = $attr->where('id = 2')->find();
     }
 }

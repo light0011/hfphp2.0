@@ -112,6 +112,17 @@ class Model extends DB{
         return $this->db->select($options);
     }
 
+    //find方法,只查询一个
+    public function find($options = array()){
+        $options = $this->parseOptions($options);
+        //总是查找一条记录
+        $options['limit'] = 1;
+
+        $resultSet = $this->db->select($options);
+
+        return $resultSet[0];
+
+    }
 
     public function delete($options=array()){
         //分析表达式
