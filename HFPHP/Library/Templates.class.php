@@ -39,13 +39,19 @@ class Templates{
     }
 
     //dispaly()方法
-    public function display($file){
+    public function display($file,$status=1){
         //根据传入值设置模板的路径
-        if(isset($file) && !empty($file)){
-            $tplFile = APP_PATH.MODULE_NAME.'/View/'.$file.'.'.C('URL_HTML_SUFFIX');
+        if($status){
+            if(isset($file) && !empty($file)){
+                $tplFile = APP_PATH.MODULE_NAME.'/View/'.$file.'.'.C('URL_HTML_SUFFIX');
+            } else {
+                $tplFile = APP_PATH.MODULE_NAME.'/View/'.CONTROLLER_NAME.'/'.ACTION_NAME.'.'.C('URL_HTML_SUFFIX');
+            }
         } else {
-            $tplFile = APP_PATH.MODULE_NAME.'/View/'.CONTROLLER_NAME.'/'.ACTION_NAME.'.'.C('URL_HTML_SUFFIX');
+            $tplFile = $file;
         }
+
+
 
         //判断模板是否存在
         if(!file_exists($tplFile)){

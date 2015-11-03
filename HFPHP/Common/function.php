@@ -99,8 +99,9 @@ function L($name=null,$value=null){
 
     //判断语言是否存在，存在则返回，不存在返回大写的$name
     if(is_string($name)){
-        $name = strtolower($name);
+        $name = strtoupper($name);
         if(is_null($value)){
+
             return isset($lang[$name]) ? $lang[$name] : $name;
         }
         $lang[$name] = $value;

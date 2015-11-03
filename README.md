@@ -52,6 +52,7 @@ A()
     实例化控制器
 
 D()
+
     实例化模型
 
 U()
@@ -59,4 +60,32 @@ U()
     URL组装，格式：U('[分组/模块/操作]?参数','参数','伪静态后缀')
 
 
+四、模板引擎标签
+
+普通变量标签
+
+    {$tag}
+
+if标签
+
+    {if $tag}
+
+    {else}
+
+    {/if}
+
+foreach标签
+
+    {foreach $tag(key,value)}
+
+       {@key}
+
+       {@value}
+
+    {/foreach}
+
+
+include标签
+
+    {include file="index.tpl"}
 
