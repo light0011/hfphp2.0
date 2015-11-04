@@ -20,6 +20,12 @@ class Model extends DB{
     //主键名称
     protected $pk = 'id';
 
+    //数据信息
+    protected $data = array();
+
+    //是否自动检测数据表字段信息
+    protected $autoCheckFields = true;
+
     public function __construct($name='',$tablePrefix=''){
 
         //设置模型名
@@ -62,6 +68,17 @@ class Model extends DB{
 
     public  function add($data = array(),$options=array()){
         //数据处理，删除不是数据库字段的键值对
+        if(empty($data)){
+
+            //没有传递数据，获取当前数据对象的值
+            if(!empty($this->data)){
+                $data = $this->data;
+                //重置数据
+                $this->data = array();
+            }else{
+                return false;
+            }
+        }
         $data = $this->facade($data);
         //分析表达式
         $options = $this->parseOptions($options);
@@ -76,7 +93,6 @@ class Model extends DB{
             //没有传递数据，获取当前数据对象的值
             if(!empty($this->data)){
                 $data = $this->data;
-
                 //重置数据
                 $this->data = array();
             } else {
@@ -185,13 +201,13 @@ class Model extends DB{
 
         $this->fields = array_keys($fields);
 
-        $this->fields['autoinc'] = false;
+        $this->fields['_autoinc'] = false;
 
         foreach($fields as $key=>$value){
             if($value['primary']){
-                $this->fields['pk'] = $key;
+                $this->fields['_pk'] = $key;
                 if($value['autoinc']){
-                    $this->fields['autoinc'] = true;
+                    $this->fields['_autoinc'] = true;
                 }
             }
         }
@@ -222,6 +238,54 @@ class Model extends DB{
     public function getPK(){
         return isset($this->fields['pk']) ? $this->fields['pk'] : $this->pk;
     }
+
+
+    //创建数据对象，但不保存到数据库
+    public function create(){
+        $data = $_POST;
+
+
+        if(empty($data) || !is_array($data)){
+            return false;
+        }
+
+        //验证完成生成数据对象
+        if($this->autoCheckFields){ //开启字段检测，过滤非法字段数据
+            $vo = array();
+
+            foreach($this->fields as $key=>$value){
+               if(substr($key,0,1) == '_') continue;
+
+                $val = isset($data[$value]) ? $data[$value] : null;
+
+                //保证赋值有效
+                if(!is_null($val)){
+                    $vo[$value] = (get_magic_quotes_gpc() && is_string($val)) ? stripslashes($val) : $val;
+                }
+            }
+        }else{
+            $vo = $data;
+        }
+
+
+        //赋值当前数据对象
+        $this->data = $vo;
+        //返回创建的数据对象以供其他调用
+        return $vo;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

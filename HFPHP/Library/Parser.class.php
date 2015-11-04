@@ -21,6 +21,18 @@ class Parser{
         }
     }
 
+    //解析使用函数
+    private function parFunction(){
+        //{:U('User/insert')}
+
+        //<?php echo U('User/insert');
+
+        $patten = '/\{\:(\w\(.*\))\}/';
+        if(preg_match($patten,$this->tpl)){
+            $this->tpl = preg_replace($patten,"<?php echo $1;?>",$this->tpl);
+        }
+    }
+
     //解析if语句
     private function parIf(){
         $pattenIf = '/\{if\s+\$([\w]+)\}/';
@@ -81,6 +93,7 @@ class Parser{
     public function compile($parFile){
         //解析模板内容
         $this->parVar();
+        $this->parFunction();
         $this->parIf();
         $this->parForeach();
         $this->parInclude();

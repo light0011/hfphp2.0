@@ -5,7 +5,7 @@
     <title>测试页面</title>
 </head>
 <body>
-    <form action="{:U('Index/get')}" method="post">
+    <form action="<?php echo U('Index/get');?>" method="post">
         <p><input type="hidden" name="id" value="111"/></p>
         <p><input type="text" name="username"/></p>
         <p><input type="text" name="password"/></p>

@@ -2,16 +2,17 @@
 class IndexController extends Controller {
     public function index(){
 
-        $attr = M('ad');
-
-        $info = $attr->where('id=2')->find();
+        $this->display();
 
     }
 
-
-    public function dis(){
-        var_dump($_SERVER["HTTP_REFERER"]);
+    public function get(){
+        $user = M('user');
+        $user->create();
+        $user->save();
     }
+
+
 
 
 }

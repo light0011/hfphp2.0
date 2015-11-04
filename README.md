@@ -35,6 +35,22 @@ find()
 
     用法用select(),只取出一条数据
 
+
+create()
+
+    用于创建数据，接收post过来的表单
+
+    $User = M("User"); // 实例化User对象
+
+    // 根据表单提交的POST数据创建数据对象
+
+    $User->create();
+
+    $User->add(); // 根据条件保存修改的数据
+
+
+
+
 二、控制器
 
 assign()
@@ -95,4 +111,15 @@ foreach标签
 include标签
 
     {include file="index.tpl"}
+
+
+{:function(…)}
+
+    例如，输出U方法的返回值：
+
+    {:U('User/insert')}
+
+    编译后的PHP代码是
+
+    <?php echo U('User/insert');?>
 
