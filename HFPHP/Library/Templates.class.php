@@ -38,7 +38,7 @@ class Templates{
         }
     }
 
-    //dispaly()方法
+    //dispaly()方法,$status参数默认1,加载项目下模板，若为0，则为加载框架下模板
     public function display($file,$status=1){
         //根据传入值设置模板的路径
         if($status){

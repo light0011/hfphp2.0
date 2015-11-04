@@ -2,7 +2,9 @@
 class IndexController extends Controller {
     public function index(){
 
-        $this->error('新增失败',U('Index/dis'));
+        $attr = M('ad');
+
+        $info = $attr->where('id=2')->find();
 
     }
 

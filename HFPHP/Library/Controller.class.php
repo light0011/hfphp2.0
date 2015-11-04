@@ -34,6 +34,7 @@ class Controller{
 
     //支持错误导向和正确跳转
     private function dispatchJump($message,$status=1,$jumpUrl=''){
+
         //跳转地址
         if(!empty($jumpUrl)) $this->assign('jumpUrl',$jumpUrl);
         //提示标题
@@ -50,11 +51,14 @@ class Controller{
             $this->display(C('TMPL_ACTION_SUCCESS'),0);
         }else{
             $this->assign('message',$message); //错误提示信息
+
             //错误操作默认停留3秒
             $this->assign('waitSecond','3');
             //默认发生错误的话返回上页
             if(!$jumpUrl) $this->assign('jumpUrl','javascript:history.back(-1);');
+
             $this->display(C('TMPL_ACTION_ERROR'),0);
+
             //中止执行
             exit;
         }

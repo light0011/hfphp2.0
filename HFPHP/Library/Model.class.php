@@ -20,12 +20,21 @@ class Model extends DB{
     //主键名称
     protected $pk = 'id';
 
-    protected function __construct(){
+    public function __construct($name='',$tablePrefix=''){
 
         //设置模型名
-        $this->name = substr(get_class($this),0,-5);
+        if('' != $name){
+            $this->name = $name;
+        }else{
+            $this->name = substr(get_class($this),0,-5);
+        }
+
         //设置表前缀
-        $this->tablePrefix = C('DB_PREFIX');
+        if('' != $tablePrefix){
+            $this->tablePrefix = $tablePrefix;
+        }else{
+            $this->tablePrefix = C('DB_PREFIX');
+        }
 
         //获得DB实例
         $this->db = parent::getInstance();

@@ -199,6 +199,19 @@ function U($url,$vars='',$suffix=true){
 
 
 
+//M函数用于实例化一个没有函数文件的Model
+function M($name='',$tablePrefix=''){
+
+    static $model = array();
+
+    if(!isset($model[$name.'_Model'])){
+        $model[$name.'_Model'] = new Model($name,$tablePrefix);
+    }
+
+    return $model[$name.'_Model'];
+
+
+}
 
 
 
