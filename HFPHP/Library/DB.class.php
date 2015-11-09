@@ -14,7 +14,7 @@ class DB
     private $pdo = null;
 
     //公共静态方法获取实例化的对象
-    static protected function getInstance()
+    static public  function getInstance()
     {
         //判断self::$instance 是否已经被实例化
         if (!self::$instance instanceof self) {
@@ -47,7 +47,7 @@ class DB
 
 
     //增加
-    protected function insert($data=array(),$options=array()){
+    public function insert($data=array(),$options=array()){
 
 
         $values = $fields = array();
@@ -78,7 +78,7 @@ class DB
 
     //修改
     //传入三个数组，分别是修改表名，修改的条件，修改的key与value
-    protected function update($data,$options){
+    public  function update($data,$options){
 
         $sql = 'UPDATE '
             .$this->parseTable($options['table'])
@@ -120,7 +120,7 @@ class DB
 
 
 
-    protected function select($options = array()){
+    public function select($options = array()){
 
 
         //得到sql语句
@@ -174,7 +174,7 @@ class DB
 
 
     //总记录
-    protected function total($tables,Array $param = array()){
+    public function total($tables,Array $param = array()){
         $where = '';
         if (isset($param['where'])) {
             foreach ($param['where'] as $key => $value) {
