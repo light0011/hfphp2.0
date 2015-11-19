@@ -53,7 +53,7 @@ create()
 
     $validate
 
-    用法与thinkphp相同，除了暂时验证网址的正则还没写好
+    用法与thinkphp相同
 
 二、控制器
 
