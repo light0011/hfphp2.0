@@ -31,10 +31,14 @@ defined('LIB_PATH') or define('LIB_PATH',HF_PATH.'Library/');
 defined('RUNTIME_PATH') or define('RUNTIME_PATH',   APP_PATH.'Runtime/');
 
 // 应用编译目录
-defined('COMPILE_PATH')    or define('COMPILE_PATH',      RUNTIME_PATH.'Compile/');
+defined('COMPILE_PATH') or define('COMPILE_PATH',      RUNTIME_PATH.'Compile/');
 
 // 应用模板缓存目录
-defined('CACHE_PATH')   or define('CACHE_PATH',     RUNTIME_PATH.'Cache/');
+defined('CACHE_PATH') or define('CACHE_PATH',     RUNTIME_PATH.'Cache/');
+
+//应用数据目录
+defined('DATA_PATH') or define('DATA_PATH',RUNTIME_PATH.'Data/');
+
 //应用公共目录
 defined('COMMON_PATH') or define('COMMON_PATH',APP_PATH.'Common/');
 

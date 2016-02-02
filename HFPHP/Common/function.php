@@ -231,7 +231,116 @@ function get_client_ip(){
 }
 
 
+//根据PHP各种类型变量生成唯一标示号
+function to_uniq_string($mix) {
+    if(is_object($mix) && function_exists('spl_object_hash')) {
+        return spl_object_hash($mix);
+    } elseif (is_resource($mix)) {
+        $mix = get_resource_type($mix).strval($mix);
+    } else {
+        $mix = serialize($mix);
+    }
+    return md5($mix);
 
+}
+
+/**
+ * 快速文件数据读取和保存，针对简单类型数据，包括字符串与数组，本方法相当于S()方法的子集
+ * @param string $name 缓存名称
+ * @parram mixed $value 缓存名称
+ * @param string $path 缓存路径
+ * @return mixed
+ */
+
+function F($name,$value= '',$path=DATA_PATH) {
+    static $cache = array();
+    $filename = $path . $name . '.php';
+    //赋值
+    if('' !== $value) {
+        if(is_null($value)) {
+            //删除缓存
+            return unlink($filename);
+        } else {
+            //缓存数据
+            $dir = dirname($filename);
+            //目录不存在则创建
+            if(!is_dir($dir))
+                mkdir($dir);
+            $cache[$name] = $value;
+            return file_put_contents($filename,"<?php\nreturn ".var_export($value,true).";\n?>");
+        }
+    }
+    //取值，并且先从静态变量中取
+    if(isset($cache[$name]))
+        return $cache[$name];
+
+    //获取缓存数据
+    if(is_file($filename)) {
+        $value = include $filename;
+        $cache[$name] = $value;
+    } else {
+        $value = false;
+    }
+    return $value;
+
+}
+
+
+/**
+ * 取得对象实例，支持调用类的静态方法
+ * @param string $name 类的名称
+ * @param string $methond 要调用的类的方法
+ * @param array $args 调用类的方法中需要传入的参数
+ * @return $mixed
+ *
+ */
+
+function get_instance_of($name, $method='', $args=array()) {
+    static $instance = array();
+    $identify = empty($args) ? $name . $method : $name . $method . to_uniq_string($args);
+    if(!isset($instance[$identify])) {
+        if(class_exists($name)) {
+            $obj = new $name;
+            if(method_exists($name,$method)) {
+                if(!empty($args)) {
+                    $instance[$identify] = call_user_func_array(array($obj,$method),$args);
+                } else {
+                    $instance[$identify] = $obj->$method;
+                }
+            } else {
+                $instance[$identify] = $obj;
+            }
+        } else {
+            halt(L('_CLASS_NOT_EXIST_') . ':' . $name);
+        }
+    }
+    return $instance[$identify];
+;}
+
+
+
+
+/**
+ * 缓存管理
+ * @param mixed $name
+ *
+ *
+ */
+
+
+
+
+
+/**
+ * TODO 完善
+ * 错误输出
+ * @param mixed $error 错误
+ * @return void
+ */
+
+function halt($error) {
+    exit($error);
+}
 
 
 
