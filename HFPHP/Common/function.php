@@ -202,13 +202,13 @@ function U($url,$vars='',$suffix=true){
 //M函数用于实例化一个没有函数文件的Model
 function M($name='',$tablePrefix=''){
 
-    static $model = array();
+    static $_model = array();
 
-    if(!isset($model[$name.'_Model'])){
-        $model[$name.'_Model'] = new Model($name,$tablePrefix);
+    if(!isset($_model[$name.'_Model'])){
+        $_model[$name.'_Model'] = new Model($name,$tablePrefix);
     }
 
-    return $model[$name.'_Model'];
+    return $_model[$name.'_Model'];
 
 
 }
@@ -253,7 +253,7 @@ function to_uniq_string($mix) {
  */
 
 function F($name,$value= '',$path=DATA_PATH) {
-    static $cache = array();
+    static $_cache = array();
     $filename = $path . $name . '.php';
     //赋值
     if('' !== $value) {
@@ -266,18 +266,18 @@ function F($name,$value= '',$path=DATA_PATH) {
             //目录不存在则创建
             if(!is_dir($dir))
                 mkdir($dir);
-            $cache[$name] = $value;
+            $_cache[$name] = $value;
             return file_put_contents($filename,"<?php\nreturn ".var_export($value,true).";\n?>");
         }
     }
     //取值，并且先从静态变量中取
-    if(isset($cache[$name]))
-        return $cache[$name];
+    if(isset($_cache[$name]))
+        return $_cache[$name];
 
     //获取缓存数据
     if(is_file($filename)) {
         $value = include $filename;
-        $cache[$name] = $value;
+        $_cache[$name] = $value;
     } else {
         $value = false;
     }
@@ -296,36 +296,68 @@ function F($name,$value= '',$path=DATA_PATH) {
  */
 
 function get_instance_of($name, $method='', $args=array()) {
-    static $instance = array();
+    static $_instance = array();
     $identify = empty($args) ? $name . $method : $name . $method . to_uniq_string($args);
-    if(!isset($instance[$identify])) {
+    if(!isset($_instance[$identify])) {
         if(class_exists($name)) {
             $obj = new $name;
             if(method_exists($name,$method)) {
                 if(!empty($args)) {
-                    $instance[$identify] = call_user_func_array(array($obj,$method),$args);
+                    $_instance[$identify] = call_user_func_array(array($obj,$method),$args);
                 } else {
-                    $instance[$identify] = $obj->$method;
+                    $_instance[$identify] = $obj->$method;
                 }
             } else {
-                $instance[$identify] = $obj;
+                $_instance[$identify] = $obj;
             }
         } else {
             halt(L('_CLASS_NOT_EXIST_') . ':' . $name);
         }
     }
-    return $instance[$identify];
+    return $_instance[$identify];
 ;}
 
 
 
 
 /**
- * 缓存管理
- * @param mixed $name
- *
+ * 全局缓存设置和读取
+ * @param string $name
+ * @param mixed $value
+ * @param mixed $options
  *
  */
+
+
+function S($name, $value='', $options=null) {
+    static $cache = array();
+    //获取缓存对象实例
+    if(is_array($options)) {
+        $type = isset($options['type']) ? $options['type'] : '';
+        $cache = Cache::getInstance($type,$options);
+    } elseif(empty($options)) {
+        $cache = Cache::getInstance();
+    }
+
+    if('' === $value){ //获取缓存
+        return $cache->get($name);
+    } elseif(is_null($value)) { //删除缓存
+        return $cache->rm($name);
+    } else {
+        //两种方式可以获得expire值
+        if(is_array($options)) {
+            $expire = isset($options['expire']) ? $options['expire'] : NULL;
+        } else {
+            $expire = is_numeric($options) ? $options : NULL;
+        }
+        return $cache->set($name,$value,$expire);
+    }
+
+
+
+}
+
+
 
 
 

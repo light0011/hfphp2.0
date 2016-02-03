@@ -44,7 +44,7 @@ class HF{
                 return;
             }
         }
-        require_cache(LIB_PATH.$class.EXT);
+        return require_cache(CORE_PATH.$class.EXT);
     }
 
 

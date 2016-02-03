@@ -24,8 +24,18 @@ defined('HF_PATH') or define('HF_PATH',__DIR__.'/');
 defined('VENDOR_PATH') or define('VENDOR_PATH',HF_PATH.'Vendor/');
 
 
-//框架核心类库
+//框架类库
 defined('LIB_PATH') or define('LIB_PATH',HF_PATH.'Library/');
+
+//框架核心类库
+defined('CORE_PATH') or define('CORE_PATH',LIB_PATH.'Core/');
+
+//框架各种驱动类库
+defined('DRIVER_PATH') or define('DRIVER_PATH',LIB_PATH.'Driver/');
+
+//框架缓存驱动类库
+//defined('CACHE_DRIVER_PATH') or define('CACHE_DRIVER_PATH',DRIVER_PATH.'Cache/');
+
 
 //系统运行时目录
 defined('RUNTIME_PATH') or define('RUNTIME_PATH',   APP_PATH.'Runtime/');
@@ -38,6 +48,9 @@ defined('CACHE_PATH') or define('CACHE_PATH',     RUNTIME_PATH.'Cache/');
 
 //应用数据目录
 defined('DATA_PATH') or define('DATA_PATH',RUNTIME_PATH.'Data/');
+
+//项目缓存目录
+defined('TEMP_PATH') or define('TEMP_PATH',RUNTIME_PATH.'Temp/');
 
 //应用公共目录
 defined('COMMON_PATH') or define('COMMON_PATH',APP_PATH.'Common/');
@@ -57,7 +70,7 @@ function load_runtime_file(){
     require HF_PATH.'Common/function.php';
 
     //加载系统核心类文件
-    require_cache(LIB_PATH.'HF.class.php');
+    require_cache(CORE_PATH.'HF.class.php');
 
     //加载smarty库
     require_cache(VENDOR_PATH.'smarty/Smarty.class.php');

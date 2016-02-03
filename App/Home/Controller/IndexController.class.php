@@ -5,11 +5,15 @@ class IndexController extends Controller {
 
     public function index(){
 
+
         $data = array('li','jun');
 
-        F('name',$data);
+        S('name',$data,array('length'=>5));
 
-        var_dump(F('name'));
+        var_dump(S('name',null));
+
+
+
         //$this->display();
 
     }
