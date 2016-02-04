@@ -10,6 +10,11 @@ class App{
         //设置系统时区
         date_default_timezone_set(C('DEFAULT_TIMEZONE'));
 
+        //开启缓存
+         if(APP_DEBUG) {
+             ob_start();
+         }
+
         //URL调度
         Dispatcher::dispatch();
 

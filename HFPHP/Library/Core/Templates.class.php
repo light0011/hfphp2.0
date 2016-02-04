@@ -87,6 +87,8 @@ class Templates{
 
         if(APP_CACHE){
             //获取缓冲区的数据，并且创建缓存文件
+            fopen($cacheFile,'w');
+            chmod($cacheFile,0777);
             file_put_contents($cacheFile,ob_get_contents());
             //清除缓冲区
             ob_clean();
