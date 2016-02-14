@@ -54,6 +54,7 @@ class Dispatcher{
         //获取模块，控制器和方法
         if(C('MODULE_ALLOW_LIST')){
             define('MODULE_NAME',self::getModule(C('VAR_MODULE')));
+            define('MODULE_PATH',APP_PATH.MODULE_NAME.'/');
         }
 
         define('CONTROLLER_NAME',self::getController(C('VAR_CONTROLLER')));

@@ -356,8 +356,47 @@ function S($name, $value='', $options=null) {
 
 
 }
+/**
+ * 导入所需的类库，但是只支持本项目下，公共目录common下，以及vendor下
+ * @param string $class 类命名空间字符串
+ * @return boolean
+ */
+function import($class) {
+    static $_file = array();
+    if(isset($_file[$class])) {
+        return true;
+    }
+    $class = str_replace('.','/',$class);
+
+    $class_path = explode('/',$class);
+
+    if('@' == $class_path[0] || MODULE_NAME == $class_path[0]) {
+        //加载当前模块下的类库
+        $baseUrl = MODULE_PATH;
+        $class = substr_replace($class,'',0,strlen($class_path[0]) + 1);
+    }elseif('Common' == $class_path[0]) {
+        //加载公共模块下的类库
+        $baseUrl = COMMON_PATH;
+        $class = substr($class,7);
+    }elseif('HF' == $class_path[0]){
+        $baseUrl = LIB_PATH;
+        $class = substr_replace($class,'',0,strlen($class_path[0]) + 1);
+    }
+
+    if(substr($baseUrl,-1) != '/')
+        $baseUrl .= '/';
+
+    $class_file = $baseUrl.$class.EXT;
+
+    if(!class_exists(basename($class),false)) {
+        //如果类不存在，则导入类库wenjian
+        return require_cache($class_file);
+    }
+
+    return true;
 
 
+}
 
 
 

@@ -6,10 +6,11 @@ class IndexController extends Controller {
     public function index(){
 
 
+        import('HF.Vendor.Image');
 
+        Image::say();
 
-
-        $this->display();
+        //$this->display();
 
     }
 
