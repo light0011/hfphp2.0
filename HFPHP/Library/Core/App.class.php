@@ -11,7 +11,7 @@ class App{
         date_default_timezone_set(C('DEFAULT_TIMEZONE'));
 
         //开启缓存
-         if(APP_DEBUG) {
+         if(APP_CACHE) {
              ob_start();
          }
 

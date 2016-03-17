@@ -5,11 +5,11 @@ class IndexController extends Controller {
 
     public function index(){
 
+        $User = D("User");
 
+        var_dump(json_encode($User));
 
-
-
-        $this->display();
+        //var_dump($memcache->mget($key));
 
     }
 

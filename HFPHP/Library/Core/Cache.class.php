@@ -21,17 +21,15 @@ class Cache {
 
     /**
      * 取得缓存类实例
-     *
+     * 本方法是静态方法，在静态方法中无法调用非静态方法，因为静态方法生成的时候非静态的方法尚未生成。
      * @return mixed
      */
-    static function getInstance($type='',$options=array()) {
+    static function getInstance($type = 'memcache') {
         static $_instance = array();
-        $uniq = $type.to_uniq_string($options);
-        if(!isset($_instance[$uniq])) {
-            $obj = new Cache();
-            $_instance[$uniq] = $obj->connect($type,$options);
+        if(!isset($_instance[$type])) {
+            $_instance[$type] = self::connect($type);
         }
-        return $_instance[$uniq];
+        return $_instance[$type];
     }
 
     /**
@@ -40,58 +38,19 @@ class Cache {
      * @return object
      */
 
-    public function connect($type='', $options=array()) {
+    static private function connect($type) {
+        $cache = null;
         if(empty($type)) $type = C('DATA_CACHE_TYPE');
-        $class = ucfirst(strtolower(trim($type)));
+        $class = __CLASS__.ucfirst(strtolower(trim($type)));
 
         if(is_file(LIB_PATH.'Driver/Cache/'.$class.'.class.php')) {
-            $path = LIB_PATH;
-        }
-
-        if(require_cache($path.'Driver/Cache/'.$class.'.class.php')) {
-            $cache = new $class($options);
+            require_cache(LIB_PATH.'Driver/Cache/'.$class.'.class.php');
+            $cache = new $class();
         } else {
             halt(L('_CACHE_TYPE_INVALID_').':'.$type);
         }
+
         return $cache;
-
-    }
-
-
-    /**
-     * 队列缓存
-     * @access protected
-     * @parram string $key 队列名
-     * @return mixed
-     *
-     */
-
-    protected function queue($key) {
-        static $_handler = array(
-            'file' => array('F','F'),
-        );
-        $queue = isset($this->options['queue']) ? $this->options['queue'] : 'file';
-        $fun = isset($_handler[$queue]) ? $_handler[$queue] : $_handler['file'];
-        $queue_name = isset($this->options['queue_name']) ? $this->options['queue_name'] : 'hf_queue';
-        $value = $fun[0]($queue_name);
-
-        if(!$value) {
-            $value = array();
-        }
-
-        //进列
-        if(false === array_search($key,$value)) array_push($value,$key);
-
-        if(count($value) > $this->options['length']) {
-            //出列
-            $key = array_shift($value);
-            //删除缓存
-            $this->rm($key);
-
-        }
-
-        return $fun[1]($queue_name,$value);
-
 
     }
 

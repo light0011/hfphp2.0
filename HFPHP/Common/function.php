@@ -320,42 +320,6 @@ function get_instance_of($name, $method='', $args=array()) {
 
 
 
-/**
- * 全局缓存设置和读取
- * @param string $name
- * @param mixed $value
- * @param mixed $options
- *
- */
-
-
-function S($name, $value='', $options=null) {
-    static $cache = array();
-    //获取缓存对象实例
-    if(is_array($options)) {
-        $type = isset($options['type']) ? $options['type'] : '';
-        $cache = Cache::getInstance($type,$options);
-    } elseif(empty($options)) {
-        $cache = Cache::getInstance();
-    }
-
-    if('' === $value){ //获取缓存
-        return $cache->get($name);
-    } elseif(is_null($value)) { //删除缓存
-        return $cache->rm($name);
-    } else {
-        //两种方式可以获得expire值
-        if(is_array($options)) {
-            $expire = isset($options['expire']) ? $options['expire'] : NULL;
-        } else {
-            $expire = is_numeric($options) ? $options : NULL;
-        }
-        return $cache->set($name,$value,$expire);
-    }
-
-
-
-}
 
 
 
