@@ -351,7 +351,6 @@ function import($class) {
         $baseUrl .= '/';
 
     $class_file = $baseUrl.$class.EXT;
-
     if(!class_exists(basename($class),false)) {
         //如果类不存在，则导入类库wenjian
         return require_cache($class_file);

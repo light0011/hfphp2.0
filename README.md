@@ -16,11 +16,11 @@ PHP框架有很多，Yii、laravel更是优秀，但是TP是我使用的第一�
 TODO
 
     1、完善自动加载机制，并引入命名空间
-    2、改写TP的session与cookie方法
+    2、改写TP的session与cookie方法，并且实现session的mysql驱动
     3、引入各种工具类
     4、增加日志记录模块，方便bug查询
     5、配置文件分目录、分文件进行配置,方便管理
-    
+   
     
     
     
@@ -125,6 +125,32 @@ TODO
         $memcache->get('num');
         
         注：如存储的value为数组,先转化为json格式，在进行存储。
+        
+        
+Session与Cookie
+        
+        注:若将session储存在redis/memcache中，请先配置php.ini文件，之后正常使用session功能即可。
+        但是暂时无法存储到数据库，该驱动功能暂时尚未完成。
+        
+        $session = Session::getInstance();
+        
+        //设值
+        $session->set('key','value');
+
+        //取值
+        $session->get('key');
+        
+        //取所有值
+        $session->getAll();
+
+        //删除值
+        $session->del('key');
+
+        //删除所有值
+        $session->destroy();
+        
+        
+        
         
         
 一、模型(亦可以使用ORM方式)

@@ -59,6 +59,12 @@ class App{
         //项目初始化
         App::init();
 
+        //不过php执行方式不是命令行方式，开启session
+        if(PHP_SAPI != 'cli'){
+            Session::getInstance()->start(C('SESSION_OPTIONS'));
+        }
+
+
         //项目执行
         APP::exec();
 

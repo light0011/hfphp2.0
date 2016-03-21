@@ -1,6 +1,6 @@
 <?php
 
-require 'Abstraction.class.php';
+import('HF/Driver/Cache/Abstraction');
 
 /**
  *

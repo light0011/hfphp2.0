@@ -5,9 +5,7 @@ class IndexController extends Controller {
 
     public function index(){
 
-        //$User = D("User");
 
-        echo 'a';
 
     }
 

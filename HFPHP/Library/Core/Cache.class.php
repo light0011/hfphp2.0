@@ -44,7 +44,7 @@ class Cache {
         $class = __CLASS__.ucfirst(strtolower(trim($type)));
 
         if(is_file(LIB_PATH.'Driver/Cache/'.$class.'.class.php')) {
-            require_cache(LIB_PATH.'Driver/Cache/'.$class.'.class.php');
+            import('HF/Driver/Cache/'.$class);
             $cache = new $class();
         } else {
             halt(L('_CACHE_TYPE_INVALID_').':'.$type);
