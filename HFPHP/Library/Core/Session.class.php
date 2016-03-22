@@ -80,7 +80,7 @@ class Session{
         return true;
     }
 
-    public function destroy() {
+    public function clear() {
         //this does only affect the local $_SESSION variable instance but not the session data in the session storage.
         session_unset();
         //destroys the session data that is stored in the session storage (e.g. the session file in the file system).
