@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 /*
  * session管理
  *

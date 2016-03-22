@@ -53,9 +53,11 @@ function A($name){
     if(isset($_controller[$name]))
         return $_controller[$name];
 
-    $class = $name.'Controller';
+
+    $class = MODULE_NAME.'\\Controller\\'.$name.'Controller';
 
     //class_exists($class,[bool $autoload = true])会自动调用autoload方法，除非第二个参数填false
+
     if(class_exists($class)){
         $controller = new $class();
         $_controller[$name] = $controller;
@@ -324,6 +326,11 @@ function get_instance_of($name, $method='', $args=array()) {
  * 导入所需的类库，但是只支持本项目下，公共目录common下，以及vendor下
  * @param string $class 类命名空间字符串
  * @return boolean
+ *
+ * import('@.Model.AttrModel');
+ * import('Common.test.test');
+ * import('HF.Core.App');
+ *
  */
 function import($class) {
     static $_file = array();
@@ -337,7 +344,9 @@ function import($class) {
     if('@' == $class_path[0] || MODULE_NAME == $class_path[0]) {
         //加载当前模块下的类库
         $baseUrl = MODULE_PATH;
+
         $class = substr_replace($class,'',0,strlen($class_path[0]) + 1);
+
     }elseif('Common' == $class_path[0]) {
         //加载公共模块下的类库
         $baseUrl = COMMON_PATH;
@@ -351,8 +360,11 @@ function import($class) {
         $baseUrl .= '/';
 
     $class_file = $baseUrl.$class.EXT;
+
+
+
     if(!class_exists(basename($class),false)) {
-        //如果类不存在，则导入类库wenjian
+        //如果类不存在，则导入类库文件
         return require_cache($class_file);
     }
 

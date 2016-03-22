@@ -15,11 +15,11 @@ PHP框架有很多，Yii、laravel更是优秀，但是TP是我使用的第一�
 
 TODO
 
-    1、完善自动加载机制，并引入命名空间
-    2、改写TP的session与cookie方法，并且实现session的mysql驱动
-    3、引入各种工具类
-    4、增加日志记录模块，方便bug查询
-    5、配置文件分目录、分文件进行配置,方便管理
+ 
+    1、实现session的mysql驱动
+    2、引入各种工具类
+    3、增加日志记录模块，方便bug查询
+    4、配置文件分目录、分文件进行配置,方便管理
    
     
     
@@ -175,8 +175,70 @@ Session与Cookie
         //清除所有的cookile,只是在相同的配置下
         $cookie->clear($config);
         
+命名空间
+          
+          
+        支持命名空间，如果不清楚什么是命名空间，可以参考PHP手册相关部分。这里就不对命名空间的用法做过       多的描述了。         
+        
+函数说明
+       
+       
+        A()
+         
+            实例化控制器,文件上方不需引入命名空间，已自动引入
+            
+            <?php
+            
+            namespace Home\Controller;
+            use Core\Controller;
+            
+            class IndexController extends Controller {
+            
+                public function index(){
+            
+            
+                    $user = A('User');
+            
+                    $user->say();
+            
+            
+                }
+         
+            
+            }
+            
+            
+            
+        
+        D()
+        
+            实例化模型
+        
+        M()
+        
+            用于实例化一个没有函数文件的Model
+        
+        U()
+        
+            URL组装，格式：U('[分组/模块/操作]?参数','参数','伪静态后缀')
         
         
+        F()
+        
+            快速文件数据读取和保存，针对简单类型数据，包括字符串与数组，本方法相当于S()方法的子集
+        
+       
+        
+        import()
+        
+            导入类库方法，可导入本项目下，公共目录下，以及框架自带类库
+            
+            import('@.Model.AttrModel');   分析路径为  ./App/Home/Model/AttrModel.class.php
+            import('Common.test.test');   分析路径为  ./App/Common/test/test.class.php
+            import('HF.Core.App');   分析路径为  E:\www\hfphp2.0\HFPHP/Library/Core/App.class.php  
+     
+            
+ 
         
 一、模型(亦可以使用ORM方式)
 
@@ -239,35 +301,8 @@ display()
     加载模板
 
 
-三、基础函数
-
-A()
-
-    实例化控制器
-
-D()
-
-    实例化模型
-
-M()
-
-    用于实例化一个没有函数文件的Model
-
-U()
-
-    URL组装，格式：U('[分组/模块/操作]?参数','参数','伪静态后缀')
 
 
-F()
-
-    快速文件数据读取和保存，针对简单类型数据，包括字符串与数组，本方法相当于S()方法的子集
-
-
-
-
-import()
-
-    导入类库方法，可导入本项目下，公共目录下，以及框架自带类库
 
 四、模板引擎标签
 

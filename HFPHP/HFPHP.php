@@ -63,6 +63,10 @@ defined('CONF_PATH') or define('CONF_PATH',COMMON_PATH.'Conf/');
 define('PHP_FILE',rtrim($_SERVER['SCRIPT_NAME'],'/'));
 
 
+//判断php运行环境
+define('IS_WIN',strstr(PHP_OS, 'WIN') ? 1 : 0 );
+define('IS_CLI',PHP_SAPI=='cli'? 1   :   0);
+
 
 //加载运行时所需要运行的文件，并负责目录自动生成
 function load_runtime_file(){
@@ -89,7 +93,7 @@ function load_runtime_file(){
 load_runtime_file();
 
 //应用初始化
-HF::start();
+Core\HF::start();
 
 
 

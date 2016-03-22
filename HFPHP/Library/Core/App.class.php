@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 //App  项目执行过程管理
 
 class App{
@@ -60,7 +62,7 @@ class App{
         App::init();
 
         //不过php执行方式不是命令行方式，开启session
-        if(PHP_SAPI != 'cli'){
+        if(!IS_CLI){
             Session::getInstance()->start(C('SESSION_OPTIONS'));
         }
 

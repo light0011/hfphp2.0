@@ -1,5 +1,6 @@
 <?php
 
+namespace Core;
 
 //完成URL解析、路由和调度
 

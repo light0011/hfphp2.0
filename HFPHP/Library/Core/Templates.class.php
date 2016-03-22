@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 //模板类,采用单例模式
 class Templates{
 

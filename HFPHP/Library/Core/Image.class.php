@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 //图像处理类
 
 class Image{

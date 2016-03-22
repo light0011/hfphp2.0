@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 /**
  *
  * 缓存管理类

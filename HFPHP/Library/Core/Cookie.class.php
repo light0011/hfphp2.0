@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 /*
  * cookie管理
  *

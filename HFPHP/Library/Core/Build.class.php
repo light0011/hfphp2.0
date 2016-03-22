@@ -1,5 +1,6 @@
 <?php
 
+namespace Core;
 
 //自动生成目录
 class Build{
@@ -21,8 +22,13 @@ class IndexController extends Controller {
         }
     }
 
+    /**
+     * 创建模块的目录结构
+     *
+     * @param $module
+     *
+     */
 
-    //创建模块的目录结构
     static public function buildAppDir($module){
 
         //没有的话，自动创建

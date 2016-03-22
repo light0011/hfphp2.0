@@ -10,6 +10,7 @@
 defined('HF_PATH') or exit();
 return  array(
 
+    'APP_AUTOLOAD_LAYER'    =>  'Controller,Model', //自动加载的应用类库层
 
     /* Cookie设置 */
     'COOKIE_EXPIRE'         =>  0,       // Cookie有效期

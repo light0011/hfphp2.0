@@ -1,5 +1,8 @@
 <?php
 
+namespace Core;
+
+
 class Model{
 
     //操作状态

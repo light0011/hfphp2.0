@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 //HFPHP控制器基类  抽象类
 
 class Controller{
