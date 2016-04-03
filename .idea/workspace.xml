@@ -1,17 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61b56932-b78d-463d-8871-54c7bf6ed197" name="Default" comment="验证码">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HFPHP/Library/Vendor/Verify.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HFPHP/Library/Core/App.class.php" afterPath="$PROJECT_DIR$/HFPHP/Library/Core/App.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HFPHP/Library/Core/HF.class.php" afterPath="$PROJECT_DIR$/HFPHP/Library/Core/HF.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Home/Controller/IndexController.class.php" afterPath="$PROJECT_DIR$/App/Home/Controller/IndexController.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HFPHP/Library/Core/Templates.class.php" afterPath="$PROJECT_DIR$/HFPHP/Library/Core/Templates.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/App/Home/Controller/UserController.class.php" afterPath="$PROJECT_DIR$/App/Home/Controller/UserController.class.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HFPHP/Common/function.php" afterPath="$PROJECT_DIR$/HFPHP/Common/function.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/hfphp2.0.iml" afterPath="$PROJECT_DIR$/.idea/hfphp2.0.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
+    <list default="true" id="61b56932-b78d-463d-8871-54c7bf6ed197" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="hfphp2.0.iws" />
@@ -100,8 +90,8 @@
           <file leaf-file-name="function.php" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/HFPHP/Common/function.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.3480916" vertical-offset="3864" max-vertical-offset="9218">
-                  <caret line="186" column="5" selection-start-line="186" selection-start-column="5" selection-end-line="186" selection-end-column="5" />
+                <state vertical-scroll-proportion="0.18015267" vertical-offset="3864" max-vertical-offset="9218">
+                  <caret line="181" column="16" selection-start-line="181" selection-start-column="16" selection-end-line="181" selection-end-column="16" />
                   <folding />
                 </state>
               </provider>
@@ -361,6 +351,13 @@
       <option name="number" value="Default" />
       <updated>1444654316219</updated>
     </task>
+    <task id="LOCAL-00001" summary="验证码">
+      <created>1459683686913</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1459683686913</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -836,8 +833,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HFPHP/Common/function.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3480916" vertical-offset="3864" max-vertical-offset="9218">
-          <caret line="186" column="5" selection-start-line="186" selection-start-column="5" selection-end-line="186" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.18015267" vertical-offset="3864" max-vertical-offset="9218">
+          <caret line="181" column="16" selection-start-line="181" selection-start-column="16" selection-end-line="181" selection-end-column="16" />
           <folding />
         </state>
       </provider>
