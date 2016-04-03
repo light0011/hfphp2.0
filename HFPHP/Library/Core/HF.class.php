@@ -24,7 +24,6 @@ class HF{
         if(is_file(CONF_PATH.'config.php'))
             C(include CONF_PATH.'config.php');
 
-
         //运行应用
         App::run();
 
@@ -37,7 +36,6 @@ class HF{
      * @return bool
      */
     static public function autoload($class){
-
        //检查是否存在映射
         if(isset(self::$map[$class])) {
             include self::$map[$class];
@@ -56,7 +54,6 @@ class HF{
                     include $filename;
                 }
             }elseif(in_array($name,explode(',',C('MODULE_ALLOW_LIST')))) { //目前应用于A()方法
-
                 require_cache(APP_PATH.$class.EXT);
             }
         }else{

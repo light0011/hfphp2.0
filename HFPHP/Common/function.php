@@ -3,18 +3,28 @@
 
 //优化的require_once,判断是否为文件并且引入
 function require_cache($filename){
-    static $_importFiles = array();
 
-    if(!isset($_importFiles[$filename])){
+
+
+    static $importFiles = array();
+
+    if(!isset($importFiles[$filename])){
+
         if(is_file($filename)){
+
             require $filename;
-            $_importFiles[$filename] = true;
+
+            $importFiles[$filename] = true;
+
         } else {
-            $_importFiles[$filename] = false;
+            $importFiles[$filename] = false;
         }
     }
 
-    return $_importFiles[$filename];
+
+
+
+    return $importFiles[$filename];
 }
 
 
@@ -48,6 +58,7 @@ function C($name=null,$value=null){
 //A函数用于实例化Action类，传入类的名称即可
 
 function A($name){
+
     static $_controller = array();
 
     if(isset($_controller[$name]))
@@ -56,7 +67,10 @@ function A($name){
 
     $class = MODULE_NAME.'\\Controller\\'.$name.'Controller';
 
+
+
     //class_exists($class,[bool $autoload = true])会自动调用autoload方法，除非第二个参数填false
+
 
     if(class_exists($class)){
         $controller = new $class();
@@ -79,8 +93,11 @@ function D($name){
 
     $class = $name.'Model';
 
+
+
     //class_exists($class,[bool $autoload = true])会自动调用autoload方法，除非第二个参数填false
     if(class_exists($class)){
+
         $model = new $class();
         $_model[$name] = $model;
         return $model;
@@ -138,6 +155,8 @@ function U($url,$vars='',$suffix=true){
     //url分割线
     $depr = C('URL_PATHINFO_DEPR');
 
+    $var =array();
+
     if($url){
         if('/' != $depr){ //安全替换
             $url = str_replace('/',$depr,$url);
@@ -148,7 +167,7 @@ function U($url,$vars='',$suffix=true){
 
         $path = explode($depr,$url);
 
-        $var =array();
+
 
         $var[C('VAR_ACTION')] = !empty($path) ? array_pop($path) : ACTION_NAME;
         $var[C('VAR_CONTROLLER')] = !empty($path) ? array_pop($path) : CONTROLLER_NAME;
@@ -317,7 +336,7 @@ function get_instance_of($name, $method='', $args=array()) {
         }
     }
     return $_instance[$identify];
-;}
+}
 
 
 
@@ -340,6 +359,8 @@ function import($class) {
     $class = str_replace('.','/',$class);
 
     $class_path = explode('/',$class);
+
+    $baseUrl = '';
 
     if('@' == $class_path[0] || MODULE_NAME == $class_path[0]) {
         //加载当前模块下的类库

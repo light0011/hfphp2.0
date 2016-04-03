@@ -37,19 +37,24 @@ class App{
 
     static public function exec(){
 
+
+
         //安全检测控制器名称
         if(!preg_match('/^[A-Za-z0-9_]+$/',CONTROLLER_NAME)){
             $controller = false;
         } else {
-
             $controller = A(CONTROLLER_NAME);
+
         }
+
 
         if(!$controller){
             exit('该控制器不存在！');
         }
 
         $action = ACTION_NAME;
+
+
         call_user_func(array($controller,$action));
 
     }
@@ -67,8 +72,12 @@ class App{
         }
 
 
+
         //项目执行
         APP::exec();
+
+
+
 
     }
 

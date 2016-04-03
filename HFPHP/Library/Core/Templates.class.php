@@ -36,7 +36,7 @@ class Templates{
         if(isset($var) && !empty($var)){
             $this->vars[$var] = $value;
         } else {
-            eixt('ERROR:请设置模板变量！');
+            exit('ERROR:请设置模板变量！');
         }
     }
 
