@@ -187,6 +187,7 @@ function U($url,$vars='',$suffix=true){
     }
 
 
+
     if(C('URL_MODEL') == 0){ //普通模式URL转换
         $url = PHP_FILE.'?'.http_build_query($var);
         if(!empty($vars)){
