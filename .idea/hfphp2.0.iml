@@ -6,6 +6,7 @@
     <content url="file://$MODULE_DIR$/../thinkphp" />
     <content url="file://$MODULE_DIR$/../thinkphp3" />
     <content url="file://$MODULE_DIR$/../thinkphp5" />
+    <content url="file://$MODULE_DIR$/../weibo" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

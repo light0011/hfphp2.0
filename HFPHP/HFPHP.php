@@ -20,8 +20,7 @@ const EXT               =   '.class.php';
 defined('HF_PATH') or define('HF_PATH',__DIR__.'/');
 
 
-//第三方类库目录
-defined('VENDOR_PATH') or define('VENDOR_PATH',HF_PATH.'Vendor/');
+
 
 
 //框架类库
@@ -33,8 +32,8 @@ defined('CORE_PATH') or define('CORE_PATH',LIB_PATH.'Core/');
 //框架各种驱动类库
 defined('DRIVER_PATH') or define('DRIVER_PATH',LIB_PATH.'Driver/');
 
-//框架缓存驱动类库
-//defined('CACHE_DRIVER_PATH') or define('CACHE_DRIVER_PATH',DRIVER_PATH.'Cache/');
+//框架供应文件夹
+defined('VENDOR_PATH') or define('VENDOR_PATH',LIB_PATH.'Vendor/');
 
 
 //系统运行时目录

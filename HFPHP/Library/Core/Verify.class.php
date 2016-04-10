@@ -3,7 +3,7 @@
 /**
  * 验证码类
  */
-namespace Vendor;
+namespace Core;
 
 
 class Verify{
@@ -89,7 +89,7 @@ class Verify{
 
         //验证码使用随机字体
 
-        $ttfPath = dirname(__FILE__).'/Verify/ttfs/';
+        $ttfPath = VENDOR_PATH.'Verify/ttfs/';
 
         if(empty($this->fontttf)) {
             $dir = dir($ttfPath);

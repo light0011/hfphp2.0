@@ -7,17 +7,16 @@ use Core\Controller;
 class IndexController extends Controller {
 
     public function index(){
-        $verify = new \Vendor\Verify();
 
-        $verify->verify();
-
-
-
+        $rule = array('date','Y-m-d');
+        $str = 'qqq';
+        echo call_user_func_array($rule[0],(array)$rule[1]);
 
     }
 
-    public function img() {
+    public static function test($str) {
 
+        return $str.'ccc';
 
     }
 
