@@ -9,7 +9,6 @@ class IndexController extends Controller {
     public function index(){
 
         $rule = array('date','Y-m-d');
-        $str = 'qqq';
         echo call_user_func_array($rule[0],(array)$rule[1]);
 
     }
