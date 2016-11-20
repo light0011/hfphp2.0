@@ -15,6 +15,8 @@ class Session{
 
 
 
+
+\
     //公共静态方法获取实例化的对象
     static public  function getInstance() {
         //判断self::$instance 是否已经被实例化
@@ -31,6 +33,9 @@ class Session{
 
     //私有构造
     private function __construct() {}
+
+
+
 
     /**
      * @param array $config

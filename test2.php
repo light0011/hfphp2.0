@@ -56,6 +56,11 @@ class Parser {
                     $this->_tpl = preg_replace($_pattenVar,"<?php echo \$$1?>",$this->_tpl);
                 }
 
+                
+
+
+
+
 
 
 
@@ -106,9 +111,6 @@ class Parser {
             exit('ERROR：编译文件生成出错！');
         }
     }
-
-
-
 
 }
 ?>

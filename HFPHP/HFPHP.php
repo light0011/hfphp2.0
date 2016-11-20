@@ -13,13 +13,10 @@ const URL_PATHINFO      =   1;   //PATHINFO模式
 
 const EXT               =   '.class.php';
 
-
 //常用目录定义
 
 //框架目录
 defined('HF_PATH') or define('HF_PATH',__DIR__.'/');
-
-
 
 
 
@@ -100,5 +97,3 @@ Core\HF::start();
 
 
 
-
-?>
